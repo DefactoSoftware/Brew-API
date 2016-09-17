@@ -1,5 +1,6 @@
 defmodule Brew.Schema do
-  alias GraphQL.Type.{ObjectType, List, NonNull, ID, String, Int, Boolean}
+  alias GraphQL.Type.{ObjectType, List, NonNull, ID, String, Int, Boolean, Interface}
+  alias Brew.Schema.{WorkTime}
 
   def schema do
     %GraphQL.Schema{query: query}
@@ -7,9 +8,9 @@ defmodule Brew.Schema do
 
   defmodule WorkTime do
     def type do
-      %ObjectType {
+      %ObjectType{
         name: "WorkTime",
-        description: "",
+        description: "Set a startime and a time to work",
         fields: %{
           id: %{type: %String{}, description: "WorkTime ID"},
           start_time: %{ type: %String{}, description: "THe time that the user starts working" },
@@ -25,13 +26,13 @@ defmodule Brew.Schema do
       description: "All the queries available to the client",
       fields: %{
         work_time: %{
-          type: %List{ofType: WorkTime},
+          type: WorkTime,
           description: "A time set to work for the user",
           args: %{
             id: %{type: %ID{}, description: "ID of WorkTime"},
           },
           resolve: fn
-            _source, %{id: id}, _info -> [Brew.Data.get_work_time(id)]
+            _source, %{id: id}, _info -> Brew.Data.get_work_time(id)
             _source, _args, _info     -> for id <- 1..2, do: Brew.Data.get_work_time(id)
           end
         }
@@ -42,8 +43,7 @@ end
 
 defmodule Brew.Data do
   def get_work_time(id) do
-    first
-    # Map.get(list_of_minutes, String.to_atom(id), nil)
+    Map.get(list_of_minutes, String.to_atom(id), nil)
   end
 
   def list_of_minutes do
