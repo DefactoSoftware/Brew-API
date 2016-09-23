@@ -13,7 +13,7 @@ defmodule Brew.Schema do
         description: "Set a startime and a time to work",
         fields: %{
           id: %{type: %String{}, description: "WorkTime ID"},
-          start_time: %{ type: %String{}, description: "THe time that the user starts working" },
+          startTime: %{ type: %String{}, description: "The time that the user starts working" },
           minutes: %{ type: %Int{}, description: "The amount of time that a user wants to work" }
         }
       }
@@ -25,7 +25,7 @@ defmodule Brew.Schema do
       name: "Query",
       description: "All the queries available to the client",
       fields: %{
-        work_time: %{
+        workTime: %{
           type: WorkTime,
           description: "A time set to work for the user",
           args: %{
@@ -52,14 +52,14 @@ defmodule Brew.Data do
 
   def first do
     %{id: "1",
-     start_time: "yes",
+     startTime: "yes",
      minutes: 25,
     }
   end
 
   def second do
     %{id: "1",
-     start_time: "yes",
+     startTime: "yes",
      minutes: 25,
     }
   end
